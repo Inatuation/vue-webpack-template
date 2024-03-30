@@ -1,10 +1,11 @@
-const { type } = require("os");
 const path = require("path");
-const { devtools } = require("vue");
 const { VueLoaderPlugin } = require("vue-loader");
 const { DefinePlugin } = require("webpack");
 const BundleAnalyzerPlugin =
     require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+{{#ifNotEmpty autoElementPlusConfigPlugins}}
+{{{autoElementPlusConfig}}}
+{{/ifNotEmpty}}
 
 module.exports = {
     mode: "development",
@@ -67,6 +68,9 @@ module.exports = {
             generateStatsFile: true,
             openAnalyzer: false,
         }),
+        {{#ifNotEmpty autoElementPlusConfigPlugins}}
+        {{autoElementPlusConfigPlugins}}
+        {{/ifNotEmpty}}
     ],
     resolve: {
         alias: {
@@ -74,11 +78,11 @@ module.exports = {
         },
     },
     devServer: {
-        static: './dist',
+        static: "./dist",
         compress: true,
         port: 9000,
         hot: true,
         open: true,
         historyApiFallback: true,
-    }
+    },
 };

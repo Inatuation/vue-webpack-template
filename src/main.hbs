@@ -1,0 +1,21 @@
+import { createApp } from 'vue';
+import App from './App.vue';
+{{#ifNotEmpty autoElementImport}}
+{{{autoElementImport}}}
+{{/ifNotEmpty}}
+{{#ifNotEmpty importAxiosPlugin}}
+{{{importAxiosPlugin}}}
+{{/ifNotEmpty}}
+{{#ifNotEmpty importElementPlus}}
+{{{importElementPlus}}}
+{{/ifNotEmpty}}
+
+const app = createApp(App);
+{{#ifNotEmpty useAxiosPlugin}}
+{{useAxiosPlugin}}
+{{/ifNotEmpty}}
+{{#ifNotEmpty useElementPlus}}
+{{useElementPlus}}
+{{/ifNotEmpty}}
+
+app.mount('#app');
