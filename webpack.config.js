@@ -1,0 +1,84 @@
+const { type } = require("os");
+const path = require("path");
+const { devtools } = require("vue");
+const { VueLoaderPlugin } = require("vue-loader");
+const { DefinePlugin } = require("webpack");
+const BundleAnalyzerPlugin =
+    require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+
+module.exports = {
+    mode: "development",
+    entry: "./src/main.js",
+    output: {
+        filename: "main.js",
+        path: path.resolve(__dirname, "dist"),
+    },
+    devtool: "cheap-source-map",
+    optimization: {
+        usedExports: true, // 启用Tree Shaking
+    },
+    module: {
+        rules: [
+            {
+                test: /\.vue$/,
+                loader: "vue-loader",
+            },
+            {
+                test: /\.css$/,
+                use: ["style-loader", "css-loader"],
+            },
+            {
+                test: /\.scss$/,
+                use: ["style-loader", "css-loader", "sass-loade"],
+            },
+            {
+                test: /\.(png|svg|jpg|jpeg|gif|webp)$/i,
+                type: "asset/resource",
+                generator: {
+                    filename: "static/[hash][ext][query]",
+                },
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/i,
+                type: "asset/resource",
+            },
+            {
+                test: /\.m?js$/,
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: ["@babel/preset-env"],
+                        plugins: ["@babel/plugin-transform-runtime"],
+                    },
+                },
+            },
+        ],
+    },
+    plugins: [
+        new DefinePlugin({
+            // 在这里定义Vue的特性标志
+            __VUE_OPTIONS_API__: true, // 如果使用Composition API，请设置为true
+            __VUE_PROD_DEVTOOLS__: false, // 如果不需要Vue开发者工具，请设置为false
+            __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: false, // 如果不需要关于水合不匹配的详细信息，请设置为false
+        }),
+        new VueLoaderPlugin(),
+        new BundleAnalyzerPlugin({
+            generateStatsFile: true,
+            openAnalyzer: false,
+        }),
+    ],
+    resolve: {
+        alias: {
+            "@": path.resolve(__dirname, "src"),
+        },
+    },
+    devServer: {
+        static: './dist',
+        compress: true,
+        port: 9000,
+        hot: true,
+        open: true,
+        historyApiFallback: true,
+    }
+};
