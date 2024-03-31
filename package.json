@@ -1,7 +1,7 @@
 {
-  "name": "vue-webpack",
+  "name": "vue-webpack-template",
   "version": "1.0.0",
-  "description": "vue-webpack",
+  "description": "vue-webpack-template",
   "main": "main.js",
   "scripts": {
     "dev": "webpack-dev-server",
